@@ -1,23 +1,33 @@
-# FedHealth AI 
+# FedHealth AI 🏥
 
-## Privacy-Preserving Federated Learning for Wearable Human Activity Recognition
+### Privacy-Preserving Federated Learning for Wearable Human Activity Recognition
 
 FedHealth AI is a machine learning project that explores **Federated Learning (FL)** and **Differential Privacy (DP)** for human activity recognition using wearable sensor data.
 
-##  Objectives
+The project investigates collaborative model training across multiple simulated clients and evaluates the trade-off between predictive performance and privacy-related training mechanisms.
+
+---
+
+## 🎯 Objectives
 
 - Implement federated learning using Federated Averaging (FedAvg).
 - Explore differential privacy during local model training.
 - Classify six human activities using wearable sensor features.
-- Evaluate model performance and privacy trade-offs.
+- Evaluate model performance under different training configurations.
+- Analyze the trade-off between predictive performance and privacy.
 
-##  Dataset
+---
 
-The project uses the **UCI Human Activity Recognition Using Smartphones dataset**.
+## 📊 Dataset
 
-- **Input features:** 561
-- **Activity classes:** 6
-- **Federated clients:** 5
+This project uses the **UCI Human Activity Recognition Using Smartphones dataset**.
+
+| Dataset Property | Details |
+|---|---|
+| Input features | 561 |
+| Activity classes | 6 |
+| Federated clients | 5 |
+| Task | Multiclass classification |
 
 ### Activity Classes
 
@@ -30,9 +40,11 @@ The project uses the **UCI Human Activity Recognition Using Smartphones dataset*
 | 5 | Standing |
 | 6 | Laying |
 
-##  Model Architecture
+---
 
-The project uses a Multilayer Perceptron (MLP).
+## 🧠 Model Architecture
+
+The project uses a **Multilayer Perceptron (MLP)** for human activity classification.
 
 | Component | Configuration |
 |---|---|
@@ -40,9 +52,26 @@ The project uses a Multilayer Perceptron (MLP).
 | Hidden layer 1 | 128 neurons |
 | Hidden layer 2 | 64 neurons |
 | Output layer | 6 classes |
-| Activation | ReLU |
+| Activation function | ReLU |
 
-## Experimental Results
+---
+
+## 🔄 Federated Learning Workflow
+
+1. The dataset is distributed across five simulated clients.
+2. Each client trains a local model using its allocated training data.
+3. Local model updates are communicated to the aggregation process.
+4. The server combines client updates using Federated Averaging (FedAvg).
+5. The aggregated global model is evaluated on held-out test data.
+6. Differential privacy experiments investigate how privacy-related training noise affects model performance.
+
+**Note:** The project uses simulated clients. It does not represent a deployment across five physical devices.
+
+---
+
+## 📈 Experimental Results
+
+The following results were reported for selected experiments.
 
 | Experiment | Test Accuracy | Macro F1-score |
 |---|---:|---:|
@@ -51,91 +80,70 @@ The project uses a Multilayer Perceptron (MLP).
 | Differential privacy with Sitting class weighting | 76.69% | 71.26% |
 | Sitting decision-threshold adjustment | **83.31%** | **81.96%** |
 
-These results are specific to the experiments conducted. The threshold adjustment is a post-processing step, not a separately trained model.
+These results are specific to the experiments conducted. The threshold adjustment is a post-processing step applied to model predictions, not a separately trained model.
 
-##  Technologies
+### Additional Model Comparison
 
-- Python
-- PyTorch
-- Flower
-- Opacus
-- NumPy
-- Pandas
-- Scikit-learn
-- Matplotlib
+A separate model-comparison CSV in the local results folder reports the following experiments:
 
-##  Project Structure
+| Model | Accuracy | Macro F1-score |
+|---|---:|---:|
+| Centralized MLP | 94.81% | 94.78% |
+| FedAvg (Non-IID) | 91.21% | 91.10% |
+| Balanced FedAvg (Non-Private) | 94.06% | 94.00% |
+| DP-FedAvg (Noise 1.0) | 58.98% | 49.00% |
+| DP-FedAvg (Noise 0.7) | 65.32% | 58.03% |
+| Balanced FedAvg (No Dropout) | 93.25% | 93.19% |
+| DP-FedAvg (No Dropout, Noise 0.7) | 69.66% | 62.84% |
 
-```text
-FedHealth-AI/
-├── src/                  # Source code and training scripts
-├── tests/                # Automated tests
-├── data/                 # Local datasets (excluded from Git)
-├── experiments/          # Experiment outputs (excluded from Git)
-├── results/              # Generated reports (excluded from Git)
-├── requirements.txt      # Python dependencies
-├── README.md             # Project documentation
-└── .gitignore            # Git ignore rules
-```
-
-##  Setup and Installation
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/arunapriya1234/FedHealth-AI.git
-cd FedHealth-AI
-```
-
-### 2. Create a virtual environment
-
-On Windows PowerShell:
-
-```powershell
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-```
-
-### 3. Install dependencies
-
-```powershell
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-### 4. Run the tests
-
-```powershell
-python -m pytest tests/ -v
-```
-
-Ensure the required dataset is available in the expected local location before running the data tests or training scripts.
-
-##  Privacy Considerations
-
-This project experimentally explores federated learning and differential privacy.
-
-- Federated learning supports collaborative training without centrally combining the original training samples in the basic workflow.
-- Differential privacy mechanisms are intended to limit the influence of individual training examples.
-- Privacy mechanisms can affect model performance.
-- Privacy-accounting estimates depend on the training configuration and assumptions.
-- The reported privacy accounting has not been independently verified as a complete end-to-end privacy guarantee.
-
-**This project is experimental and is not a production-ready healthcare system.** The reported results should not be interpreted as clinical validation or proof of a complete privacy guarantee.
-
-## 🔮 Future Improvements
-
-- Improve model performance under differential privacy.
-- Analyze confusion matrices and per-class performance.
-- Evaluate additional privacy configurations.
-- Verify privacy accounting and secure random number generation.
-- Investigate the impact of different client data distributions.
-- Improve experiment reproducibility and documentation.
-
-##  Project Purpose
-
-FedHealth AI explores the intersection of wearable human activity recognition, federated learning, and differential privacy.
+**Important:** The additional model comparison uses different experiment configurations from the selected results above. Do not treat these rows as interchangeable or directly comparable without checking their training settings.
 
 ---
 
-**Disclaimer:** The experimental metrics reflect the configurations and evaluation procedures used in this project. Further testing is needed before real-world deployment.
+## 📊 Visual Results
+
+The following visualizations are generated from the project's existing experiment outputs.
+
+### 1. Model Accuracy Comparison
+
+Compares the accuracy values represented in the existing model comparison graph.
+
+![Model Accuracy Comparison](docs/images/model_accuracy_comparison.png)
+
+### 2. Macro F1-Score Comparison
+
+Visualizes the macro F1-score comparison across evaluated models.
+
+![Model Macro F1 Comparison](docs/images/model_macro_f1_comparison.png)
+
+### 3. Federated Training Accuracy
+
+Shows the existing federated accuracy history across training rounds.
+
+![Federated Accuracy by Round](docs/images/federated_accuracy_by_round.png)
+
+### 4. Federated Training F1-Score
+
+Shows the existing federated F1-score history across training rounds.
+
+![Federated F1-Score by Round](docs/images/federated_f1_by_round.png)
+
+### 5. Activity Distribution
+
+Visualizes the activity distribution represented in the existing dataset plot.
+
+![Activity Distribution](docs/images/activity_distribution.png)
+
+### 6. Confusion Matrix
+
+Visualizes the classification outcomes represented in the existing confusion matrix.
+
+![Confusion Matrix](docs/images/confusion_matrix.png)
+
+---
+
+## 🛠️ Technologies Used
+
+- **Python** — Core programming language
+- **PyTorch** — Neural network implementation
+- **Flower** — Federated
